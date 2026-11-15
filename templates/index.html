@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DeployX — Ship with confidence</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="#" class="logo">deploy<span>x</span><i>.</i></a>
+
+    <nav class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#endpoints">API</a>
+    </nav>
+
+    <div class="nav-status">
+        <span class="status-dot"></span>
+        <span id="navStatus">Checking system</span>
+    </div>
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero" id="overview">
+
+        <div class="eyebrow">
+            <span class="eyebrow-line"></span>
+            DEVELOPER PLATFORM / 001
+        </div>
+
+        <h1>
+            Ship software.<br>
+            <span>Without the friction.</span>
+        </h1>
+
+        <p class="hero-description">
+            A streamlined deployment environment built to automate
+            testing, containerisation and cloud delivery.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#pipeline" class="primary-link">
+                Explore the pipeline <span>↗</span>
+            </a>
+
+            <a href="#endpoints" class="secondary-link">
+                View API endpoints
+            </a>
+        </div>
+
+        <div class="hero-meta">
+            <span>FLASK APPLICATION</span>
+            <span class="meta-divider"></span>
+            <span>CONTAINER READY</span>
+            <span class="meta-divider"></span>
+            <span>CI/CD ENABLED</span>
+        </div>
+
+    </section>
+
+
+    <!-- APPLICATION STATUS -->
+    <section class="application-section">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-number">01 / APPLICATION</span>
+                <h2>Application overview</h2>
+            </div>
+
+            <button class="refresh-button" id="refreshBtn">
+                ↻ Refresh status
+            </button>
+        </div>
+
+        <div class="application-box">
+
+            <div class="application-main">
+                <div class="application-label">
+                    CURRENT APPLICATION
+                </div>
+
+                <h3>DeployX Platform</h3>
+
+                <p>
+                    Your application is running and responding to requests.
+                </p>
+            </div>
+
+            <div class="application-status">
+                <span class="status-dot large"></span>
+                <div>
+                    <strong id="appStatus">Checking...</strong>
+                    <small>Application health</small>
+                </div>
+            </div>
+
+            <div class="application-details">
+
+                <div class="detail">
+                    <span>VERSION</span>
+                    <strong id="appVersion">--</strong>
+                </div>
+
+                <div class="detail">
+                    <span>COMMIT</span>
+                    <strong id="commitSha">--</strong>
+                </div>
+
+                <div class="detail">
+                    <span>ENVIRONMENT</span>
+                    <strong id="appEnvironment">Local</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PIPELINE -->
+    <section class="pipeline-section" id="pipeline">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-number">02 / AUTOMATION</span>
+                <h2>From code to cloud.</h2>
+            </div>
+
+            <span class="section-caption">DELIVERY WORKFLOW</span>
+        </div>
+
+        <p class="section-description">
+            Every code change follows a structured delivery process,
+            from source control to cloud deployment.
+        </p>
+
+        <div class="pipeline">
+
+            <div class="pipeline-step">
+                <span class="step-number">01</span>
+                <div class="step-icon">⌘</div>
+                <h3>Source</h3>
+                <p>GitHub repository</p>
+                <span class="step-tag">CODE PUSH</span>
+            </div>
+
+            <div class="pipeline-connector"></div>
+
+            <div class="pipeline-step">
+                <span class="step-number">02</span>
+                <div class="step-icon">✓</div>
+                <h3>Test</h3>
+                <p>Automated pytest</p>
+                <span class="step-tag">VALIDATION</span>
+            </div>
+
+            <div class="pipeline-connector"></div>
+
+            <div class="pipeline-step">
+                <span class="step-number">03</span>
+                <div class="step-icon">▣</div>
+                <h3>Build</h3>
+                <p>Docker image</p>
+                <span class="step-tag">CONTAINER</span>
+            </div>
+
+            <div class="pipeline-connector"></div>
+
+            <div class="pipeline-step">
+                <span class="step-number">04</span>
+                <div class="step-icon">↗</div>
+                <h3>Deploy</h3>
+                <p>Google Cloud Run</p>
+                <span class="step-tag">CLOUD RELEASE</span>
+            </div>
+
+        </div>
+
+        <div class="pipeline-footnote">
+            <span>i</span>
+            Workflow architecture preview. Live pipeline execution will be
+            connected through GitHub Actions.
+        </div>
+
+    </section>
+
+
+    <!-- API -->
+    <section class="api-section" id="endpoints">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-number">03 / DEVELOPER TOOLS</span>
+                <h2>Application endpoints.</h2>
+            </div>
+
+            <span class="section-caption">REST API</span>
+        </div>
+
+        <p class="section-description">
+            A lightweight interface for interacting with the application.
+        </p>
+
+        <div class="endpoint-list">
+
+            <div class="endpoint-row">
+                <span class="method get">GET</span>
+                <code>/</code>
+                <span class="endpoint-description">Application homepage</span>
+                <span class="endpoint-arrow">↗</span>
+            </div>
+
+            <div class="endpoint-row">
+                <span class="method get">GET</span>
+                <code>/health</code>
+                <span class="endpoint-description">Application health check</span>
+                <span class="endpoint-arrow">↗</span>
+            </div>
+
+            <div class="endpoint-row">
+                <span class="method get">GET</span>
+                <code>/api/info</code>
+                <span class="endpoint-description">Version and commit information</span>
+                <span class="endpoint-arrow">↗</span>
+            </div>
+
+            <div class="endpoint-row">
+                <span class="method post">POST</span>
+                <code>/api/echo</code>
+                <span class="endpoint-description">JSON request and response</span>
+                <span class="endpoint-arrow">↗</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="#" class="logo footer-logo">deploy<span>x</span><i>.</i></a>
+
+        <p>Designed for reliable software delivery.</p>
+
+        <span class="footer-version">DEVELOPMENT BUILD / 1.0.0</span>
+    </footer>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>
