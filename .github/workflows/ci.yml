@@ -1,5 +1,5 @@
 
-name: DeployX CI Pipeline
+name: DeployX CI/CD Pipeline
 
 on:
   push:
@@ -7,9 +7,13 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
-  test:
-    name: Run Python Tests
+  build-and-push:
+    name: Test, Build and Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -28,3 +32,27 @@ jobs:
 
       - name: Run automated tests
         run: pytest -v
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker authentication
+        run: |
+          gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }} \
+            -t europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }}
+          docker push europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:latest
