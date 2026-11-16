@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build-and-push:
-    name: Test, Build and Push Docker Image
+    name: Test, Build, Push and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -34,25 +34,40 @@ jobs:
         run: pytest -v
 
       - name: Authenticate to Google Cloud
+        if: github.event_name == 'push'
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - name: Set up Google Cloud CLI
+        if: github.event_name == 'push'
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker authentication
+        if: github.event_name == 'push'
         run: |
           gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
 
       - name: Build Docker image
+        if: github.event_name == 'push'
         run: |
           docker build \
             -t europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }} \
             -t europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:latest .
 
       - name: Push Docker image
+        if: github.event_name == 'push'
         run: |
           docker push europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }}
           docker push europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:latest
+
+      - name: Deploy to Google Cloud Run
+        if: github.event_name == 'push'
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: deployx-service
+          image: europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }}
+          region: ${{ vars.GCP_REGION }}
+          service_account: 380620451830-compute@developer.gserviceaccount.com
+          flags: --allow-unauthenticated
