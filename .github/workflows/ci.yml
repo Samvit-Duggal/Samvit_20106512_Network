@@ -62,6 +62,7 @@ jobs:
           docker push europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }}
           docker push europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:latest
 
+      
       - name: Deploy to Google Cloud Run
         if: github.event_name == 'push'
         uses: google-github-actions/deploy-cloudrun@v2
@@ -70,4 +71,6 @@ jobs:
           image: europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/deployx-repo/deployx:${{ github.sha }}
           region: ${{ vars.GCP_REGION }}
           service_account: 380620451830-compute@developer.gserviceaccount.com
+          env_vars: GIT_SHA=${{ github.sha }}
           flags: --allow-unauthenticated
+
